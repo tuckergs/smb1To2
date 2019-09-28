@@ -1,4 +1,4 @@
-# smb2-cmmod
+# smb1To2
 
 ## Wat?
 
@@ -25,5 +25,6 @@ ghc SMB1To2
 
 I don't want to figure out bg stuff, and we already have bgtool, so I ain't copying bg stuff, period. 
 Also, of the time of writing, we don't know where conveyor speed and texture scroll is in the SMB1 stagedef, so I ain't copying conveyor stuff for now. 
+Also, we don't know whether reflective models work exactly. We know that the converter successfully copies reflective models though
 
 HAPPY CANADA DAY
