@@ -61,6 +61,9 @@ type StartPos = PosRot
 type Bumper = PosRotScale
 type Jamabar = PosRotScale
 type Banana = Vector Nat16 Char
+type Cone = Vector Nat32 Char
+type Sphere = Vector Nat20 Char
+type Cylinder = Vector Nat28 Char
 data Goal = Goal (Vector Nat18 Char) GoalType
   deriving Show
 type LevelModel = String
@@ -99,6 +102,9 @@ data CollisionHeader = CollisionHeader {
   _bumperListOffset :: ListOffset ,
   _jamabarListOffset :: ListOffset ,
   _bananaListOffset :: ListOffset ,
+  _coneListOffset :: ListOffset ,
+  _sphereListOffset :: ListOffset ,
+  _cylinderListOffset :: ListOffset ,
   _levelModelListOffset :: ListOffset ,
   _reflectiveModelListOffset :: ListOffset
 }
@@ -112,6 +118,9 @@ data LZData = LZData {
   _bumpers :: [Bumper] ,
   _jamabars :: [Jamabar] ,
   _bananas :: [Banana] ,
+  _cones :: [Cone] ,
+  _spheres :: [Sphere] ,
+  _cylinders :: [Cylinder] ,
   _levelModels :: [LevelModel] ,
   _reflectiveModels :: [ReflectiveModel] 
 }

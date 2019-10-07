@@ -21,6 +21,9 @@ dummyCollisionHeader = CollisionHeader
   (ListOffset 0x0 0x0)
   (ListOffset 0x0 0x0)
   (ListOffset 0x0 0x0)
+  (ListOffset 0x0 0x0)
+  (ListOffset 0x0 0x0)
+  (ListOffset 0x0 0x0)
 
 fixKeyframes :: Float -> [AnimFrame] -> [AnimFrame]
 fixKeyframes a [] = (:[]) $ 

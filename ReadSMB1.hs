@@ -52,6 +52,9 @@ getGlobalOffsets = flip runReaderT 0x0 $
     <*> getOffsetAt 0x2c
     <*> getOffsetAt 0x34
     <*> getOffsetAt 0x3c
+    <*> getOffsetAt 0x44
+    <*> getOffsetAt 0x4c
+    <*> getOffsetAt 0x54
     <*> getOffsetAt 0x5c
     <*> getOffsetAt 0x84
 
@@ -121,7 +124,7 @@ chaseAndReadTriIndexList = do
         ind -> fmap (ind:) loop
 
 readCollisionHeader :: GlobalOffsets -> PlaceIO CollisionHeader
-readCollisionHeader (GlobalOffsets off1 off2 off3 off4 off5 off6) = do
+readCollisionHeader (GlobalOffsets off1 off2 off3 off4 off5 off6 off7 off8 off9) = do
   -- Calculate triangle stuff
   numTriLists <- pure (*) <*> seekAndDo 0x34 readWord <*> lift readWord
   triIndexLists <- chaseListSimple numTriLists 0x20 0x4 $ syncThenLift chaseAndReadTriIndexList
@@ -137,12 +140,15 @@ readCollisionHeader (GlobalOffsets off1 off2 off3 off4 off5 off6) = do
     <*> pure tris
     <*> pure triIndexLists
     <*> seekAndDo 0x24 readChars
-    <*> seekAndDo 0x3c (readListOffset off1)
-    <*> seekAndDo 0x4c (readListOffset off2)
-    <*> seekAndDo 0x54 (readListOffset off3)
-    <*> seekAndDo 0x5c (readListOffset off4)
-    <*> seekAndDo 0x7c (readListOffset off5)
-    <*> seekAndDo 0x8c (readListOffset off6) -- Was 0xa4, but docs seem to be wrong?
+    <*> seekAndDo 0x3c (readListOffset off1) -- Goals
+    <*> seekAndDo 0x4c (readListOffset off2) -- Bumpers
+    <*> seekAndDo 0x54 (readListOffset off3) -- Jamabars
+    <*> seekAndDo 0x5c (readListOffset off4) -- Bananas
+    <*> seekAndDo 0x64 (readListOffset off5) -- Cones
+    <*> seekAndDo 0x6c (readListOffset off6) -- Spheres
+    <*> seekAndDo 0x74 (readListOffset off7) -- Cylinders
+    <*> seekAndDo 0x7c (readListOffset off8) -- Level Models
+    <*> seekAndDo 0x8c (readListOffset off9) -- Reflective Models. docs seem to imply it should be 0xa4, but that's wrong
 
 readAnimFrame :: FileIO AnimFrame
 readAnimFrame = liftM3 AnimFrame readChars readFloat readFloat
@@ -174,5 +180,8 @@ readSMB1 =
     <*> chaseListPointer 0x28 (syncThenLift readChars) -- bumpears
     <*> chaseListPointer 0x30 (syncThenLift readChars) -- jamabears
     <*> chaseListPointer 0x38 (syncThenLift readChars) -- BA NA NA
+    <*> chaseListPointer 0x40 (syncThenLift readChars) -- Cones
+    <*> chaseListPointer 0x48 (syncThenLift readChars) -- Spheres
+    <*> chaseListPointer 0x50 (syncThenLift readChars) -- Cylinders
     <*> fmap (map getLevelModelEntry)       (chaseListPointer 0x58 $ fmap LevelModelEntry $ chasePointer 0x4 (syncThenLift readString))
     <*> fmap (map getReflectiveModelEntry)  (chaseListPointer 0x80 $ fmap ReflectiveModelEntry $ chasePointer 0x0 (syncThenLift readString))

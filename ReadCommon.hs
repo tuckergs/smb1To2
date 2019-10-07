@@ -42,6 +42,9 @@ data GlobalOffsets = GlobalOffsets {
   _bumperGlobalOffset :: Offset ,
   _jamabarGlobalOffset :: Offset ,
   _bananaGlobalOffset :: Offset ,
+  _coneGlobalOffset :: Offset ,
+  _sphereGlobalOffset :: Offset ,
+  _cylinderGlobalOffset :: Offset ,
   _levelModelGlobalOffset :: Offset ,
   _reflectiveModelGlobalOffset :: Offset
 }
