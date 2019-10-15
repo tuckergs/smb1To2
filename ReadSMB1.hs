@@ -151,7 +151,7 @@ readCollisionHeader (GlobalOffsets off1 off2 off3 off4 off5 off6 off7 off8 off9)
     <*> seekAndDo 0x8c (readListOffset off9) -- Reflective Models. docs seem to imply it should be 0xa4, but that's wrong
 
 readAnimFrame :: FileIO AnimFrame
-readAnimFrame = liftM3 AnimFrame readChars readFloat readFloat
+readAnimFrame = liftM4 AnimFrame readChars readFloat readFloat readChars
 
 traverseAnimHeader :: (a -> a -> a -> a -> a -> a -> b) -> (Offset -> PlaceIO a) -> PlaceIO b
 traverseAnimHeader f k = 

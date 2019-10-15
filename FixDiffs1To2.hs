@@ -1,6 +1,7 @@
 
 module FixDiffs1To2 (fixDiffs) where
 
+import Control.Applicative
 import Control.Lens
 import Types
 import Vector
@@ -27,7 +28,7 @@ dummyCollisionHeader = CollisionHeader
 
 fixKeyframes :: Float -> [AnimFrame] -> [AnimFrame]
 fixKeyframes a [] = (:[]) $ 
-  AnimFrame (Cons '\x0' $ Cons '\x0' $ Cons '\x0' $ Cons '\x1' Nil) 0 a
+  AnimFrame (Cons '\x0' $ Cons '\x0' $ Cons '\x0' $ Cons '\x1' Nil) 0 a (pure '\x0')
 fixKeyframes a ls = ls
 -- fixKeyframes a ls = flip map ls $ over value (+a)
 

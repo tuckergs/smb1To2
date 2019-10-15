@@ -122,11 +122,11 @@ writeAnimHeaders ls = tell <* replicateM (length ls) (replicateM 16 $ wrWord 0x0
 writeAnimKeyframesForOne :: AnimData -> FileIO Offset6
 writeAnimKeyframesForOne (AnimData rX rY rZ pX pY pZ) = do
   let
-    writeFrame (AnimFrame e t v) = do
+    writeFrame (AnimFrame e t v u) = do
       writeChars e
       writeFloat t
       writeFloat v
-      replicateM 0x8 (writeChar '\x0')
+      writeChars u
     writeOneSet frs = tell <* mapM_ writeFrame frs
   pure (,,,,,)
     <*> writeOneSet rX

@@ -74,7 +74,8 @@ type CollisionParameters = Vector Nat24 Char
 data AnimFrame = AnimFrame {
   _easing :: Vector Nat4 Char ,
   _time :: Float ,
-  _value :: Float
+  _value :: Float ,
+  _animFrameUnknown :: Vector Nat8 Char 
 } deriving Show
 makeLenses ''AnimFrame
 
