@@ -8,6 +8,7 @@ import System.IO
 
 import HexStuff
 import Nat
+import ReadMonad
 import ReadSMB1
 import Types
 import Vector
@@ -25,7 +26,7 @@ main = do
     die $ "Usage: ./ShowSMB1 [in raw]"
   let [inFileName] = args
 
-  lzData <- openBinaryFile inFileName ReadMode >>= runReaderT readSMB1
+  lzData <- openBinaryFile inFileName ReadMode >>= runReadIO readSMB1
 
   flip runReaderT 0 $ do
     putTabStrLn "LZ Schtuff:"

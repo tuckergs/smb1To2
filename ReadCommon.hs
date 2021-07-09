@@ -12,28 +12,26 @@ import Data.Word
 import System.IO
 
 import FloatStuff
+import ReadMonad
 import Types
 import Vector
 
+readChar :: CharIO Char
+readChar = getChr
 
-
-
-readChar :: FileIO Char
-readChar = ReaderT hGetChar
-
-readChars :: FixedReplicateA n => FileIO (Vector n Char)
+readChars :: FixedReplicateA n => CharIO (Vector n Char)
 readChars = fixedReplicateA readChar
 
-readByte :: Integral a => FileIO a
+readByte :: Integral a => CharIO a
 readByte = fromIntegral . fromEnum <$> readChar
 
-readHalf :: (Bits a, Integral a) => FileIO a
+readHalf :: (Bits a, Integral a) => CharIO a
 readHalf = fmap (\(a:b:[]) -> shiftL a 8 .|. b) $ replicateM 2 readByte 
 
-readWord :: (Bits a, Integral a) => FileIO a
+readWord :: (Bits a, Integral a) => CharIO a
 readWord = fmap (\(a:b:[]) -> shiftL a 16 .|. b) $ replicateM 2 readHalf 
 
-readFloat :: FileIO Float
+readFloat :: CharIO Float
 readFloat = fmap hexToFloat readWord
 
 

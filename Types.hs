@@ -52,7 +52,7 @@ type PosRot = Vector Nat20 Char
 type PosRotScale = Vector Nat32 Char
 
 
-data GoalType = BlueG | GreenG | RedG
+data GoalType = BlueG | GreenG | RedG | UnknownG
   deriving Show
 
 
