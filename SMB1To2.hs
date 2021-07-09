@@ -8,6 +8,7 @@ import System.Exit
 import System.IO
 
 import FixDiffs1To2
+import ReadMonad
 import ReadSMB1
 import WriteSMB2
 
@@ -21,7 +22,7 @@ main = do
   inFile <- openBinaryFile inFileName ReadMode
   outFile <- openBinaryFile outFileName WriteMode
 
-  runReaderT readSMB1 inFile >>= return . fixDiffs >>= flip runReaderT outFile . writeSMB2
+  runReadIO readSMB1 inFile >>= return . fixDiffs >>= flip runReaderT outFile . writeSMB2
 
   hClose inFile
   hClose outFile
